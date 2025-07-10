@@ -3646,3 +3646,130 @@ Entries:
   id: 384
   time: '2025-06-28T08:33:45.0000000+00:00'
   url: https://github.com/WWhiteDreamProject/wwdpublic/pull/641
+- author: vanx
+  changes:
+    - type: Add
+      message: >-
+        Меню крафта теперь поддерживает поиск по локализованным названиям и
+        сортирует рецепты по алфавиту.
+  id: 385
+  time: '2025-06-30T05:40:51.0000000+00:00'
+  url: https://github.com/WWhiteDreamProject/wwdpublic/pull/628
+- author: vanx
+  changes:
+    - type: Tweak
+      message: >-
+        Ребаланс разброса дальнобойного оружия, теперь оно должно чувствоваться
+        более управляемым, при длинных очередях большинство пушек теряет
+        точность.
+    - type: Add
+      message: Пистолеты-пулемёты теперь можно брать в две руки.
+  id: 386
+  time: '2025-06-30T05:46:54.0000000+00:00'
+  url: https://github.com/WWhiteDreamProject/wwdpublic/pull/630
+- author: vanx
+  changes:
+    - type: Tweak
+      message: Руды теперь переплавляются в ресурсы в соотношении 1 к 1, а не 1 к 5.
+  id: 387
+  time: '2025-06-30T05:50:26.0000000+00:00'
+  url: https://github.com/WWhiteDreamProject/wwdpublic/pull/632
+- author: tripsov
+  changes:
+    - type: Fix
+      message: Исправлено имя исполнителя Space Oddity
+  id: 388
+  time: '2025-06-30T23:47:53.0000000+00:00'
+  url: https://github.com/WWhiteDreamProject/wwdpublic/pull/654
+- author: kekoven1
+  changes:
+    - type: Tweak
+      message: Событие Ноосферный разряд стало происходить чаще
+    - type: Tweak
+      message: Шансы на получение улучшенной псионической способности стали лучше
+    - type: Tweak
+      message: Минимум мерцания для появления ноосферных клещей уменьшено. 700 --> 600
+  id: 389
+  time: '2025-07-01T00:22:32.0000000+00:00'
+  url: https://github.com/WWhiteDreamProject/wwdpublic/pull/639
+- author: Warete
+  changes:
+    - type: Tweak
+      message: >-
+        При взломе Вендоматов Емагом есть 33%-ый шанс неудачного вскрытия
+        контрабанды и её дальнейшей блокировки.
+    - type: Fix
+      message: >-
+        Емаг теперь корректно выводит сообщение при взломе Вендоматов без
+        доступов.
+  id: 390
+  time: '2025-07-05T02:14:23.0000000+00:00'
+  url: https://github.com/WWhiteDreamProject/wwdpublic/pull/621
+- author: vanx
+  changes:
+    - type: Add
+      message: >-
+        Кейс с антикварным лазером капитана и оружейные сейфы теперь открываются
+        только при опасных кодах угрозы станции (красный и выше).
+  id: 391
+  time: '2025-07-05T02:22:19.0000000+00:00'
+  url: https://github.com/WWhiteDreamProject/wwdpublic/pull/635
+- author: Aposto2
+  changes:
+    - type: Fix
+      message: Теперь пожарный шлюзы не будут превращать обесточенный крио в ловушку
+  id: 392
+  time: '2025-07-05T02:27:44.0000000+00:00'
+  url: https://github.com/WWhiteDreamProject/wwdpublic/pull/640
+- author: SentryPrimies
+  changes:
+    - type: Add
+      message: >-
+        Теперь хим мастер и диспенсер испускают слабый желто-оранжевый свет при
+        наличии электричества
+    - type: Tweak
+      message: Были слегка осветлены спрайты медицинской  машинерии
+  id: 393
+  time: '2025-07-05T02:56:25.0000000+00:00'
+  url: https://github.com/WWhiteDreamProject/wwdpublic/pull/651
+- author: nekosich
+  changes:
+    - type: Tweak
+      message: Перевод почти всех гайдбуков в руководстве.
+  id: 394
+  time: '2025-07-05T03:09:49.0000000+00:00'
+  url: https://github.com/WWhiteDreamProject/wwdpublic/pull/658
+- author: vanx
+  changes:
+    - type: Add
+      message: Космические существа теперь не боятся температуры.
+    - type: Fix
+      message: Скафандры снова защищают от температуры
+    - type: Tweak
+      message: Комфортный лимит температуры тела уменьшен (+-10 -> +- 0.4 градуса).
+  id: 395
+  time: '2025-07-05T03:35:32.0000000+00:00'
+  url: https://github.com/WWhiteDreamProject/wwdpublic/pull/664
+- author: Warete
+  changes:
+    - type: Tweak
+      message: >-
+        Изменён(скорректирован) структурный урон по объектам для правильной
+        работы: пожарные шлюзы, раздвижные окна и прочие.
+  id: 396
+  time: '2025-07-05T03:54:58.0000000+00:00'
+  url: https://github.com/WWhiteDreamProject/wwdpublic/pull/661
+- author: vanx
+  changes:
+    - type: Fix
+      message: Рентгеновская пушка теперь реально наносит урон сквозь стены
+  id: 397
+  time: '2025-07-05T04:00:17.0000000+00:00'
+  url: https://github.com/WWhiteDreamProject/wwdpublic/pull/665
+- author: 89Eblan
+  changes:
+    - type: Add
+      message: Добавлен вьетнам
+  id: 398
+  time: '2025-07-05T08:41:35.0000000+00:00'
+  url: https://github.com/WWhiteDreamProject/wwdpublic/pull/642

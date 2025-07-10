@@ -50,7 +50,7 @@ tilemap:
   3: FloorSteelCheckerDark
   92: FloorSteelCheckerLight
   96: FloorSteelDirty
-  98: FloorSteelLime
+  98: FloorSteelGreen
   104: FloorTechMaintSteel
   105: FloorMaintWhite
   106: FloorTechMaint3

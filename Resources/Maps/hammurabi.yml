@@ -57,7 +57,7 @@ tilemap:
   95: FloorSteelBurnt
   100: FloorSteelDiagonalMini
   101: FloorSteelDirty
-  103: FloorSteelLime
+  103: FloorSteelGreen
   105: FloorSteelMono
   107: FloorSteelPavement
   108: FloorSteelPavementVertical
