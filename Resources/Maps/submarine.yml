@@ -120144,7 +120144,7 @@ entities:
     - type: Transform
       pos: 105.5,45.5
       parent: 2
-- proto: FloraGreyStalagmite1
+- proto: FloraGreyStalagmite
   entities:
   - uid: 17790
     components:
@@ -120334,8 +120334,6 @@ entities:
     - type: Transform
       pos: 99.6277,51.90575
       parent: 2
-- proto: FloraGreyStalagmite2
-  entities:
   - uid: 29674
     components:
     - type: Transform
@@ -120579,8 +120577,6 @@ entities:
     - type: Transform
       pos: 102.79768,61.93434
       parent: 2
-- proto: FloraGreyStalagmite3
-  entities:
   - uid: 18079
     components:
     - type: Transform
@@ -120807,8 +120803,6 @@ entities:
     - type: Transform
       pos: 99.75081,57.879654
       parent: 2
-- proto: FloraGreyStalagmite4
-  entities:
   - uid: 18193
     components:
     - type: Transform
@@ -120941,8 +120935,6 @@ entities:
     - type: Transform
       pos: 100.0555,57.30934
       parent: 2
-- proto: FloraGreyStalagmite5
-  entities:
   - uid: 29091
     components:
     - type: Transform
@@ -121239,8 +121231,6 @@ entities:
     - type: Transform
       pos: 103.77425,60.981216
       parent: 2
-- proto: FloraGreyStalagmite6
-  entities:
   - uid: 29983
     components:
     - type: Transform
@@ -121451,7 +121441,7 @@ entities:
     - type: Transform
       pos: 98.22926,50.194813
       parent: 2
-- proto: FloraStalagmite1
+- proto: FloraStalagmite
   entities:
   - uid: 3435
     components:
@@ -121579,8 +121569,6 @@ entities:
     - type: Transform
       pos: 94.09148,17.28894
       parent: 2
-- proto: FloraStalagmite2
-  entities:
   - uid: 3684
     components:
     - type: Transform
@@ -121794,8 +121782,6 @@ entities:
     - type: Transform
       pos: 65.30987,57.19859
       parent: 2
-- proto: FloraStalagmite3
-  entities:
   - uid: 1577
     components:
     - type: Transform
@@ -121901,8 +121887,6 @@ entities:
     - type: Transform
       pos: 94.80229,23.171757
       parent: 2
-- proto: FloraStalagmite4
-  entities:
   - uid: 1652
     components:
     - type: Transform
@@ -122181,8 +122165,6 @@ entities:
       rot: -1.5707963267948966 rad
       pos: 77.731415,38.917343
       parent: 2
-- proto: FloraStalagmite5
-  entities:
   - uid: 2826
     components:
     - type: Transform
@@ -122437,8 +122419,6 @@ entities:
       rot: -1.5707963267948966 rad
       pos: 88.237816,21.35089
       parent: 2
-- proto: FloraStalagmite6
-  entities:
   - uid: 3088
     components:
     - type: Transform
@@ -122598,7 +122578,7 @@ entities:
     - type: Transform
       pos: 98.739914,20.040543
       parent: 2
-- proto: FloraTree01
+- proto: FloraTree
   entities:
   - uid: 25174
     components:
@@ -122611,8 +122591,6 @@ entities:
     - type: Transform
       pos: 32.16799,-36.537888
       parent: 2
-- proto: FloraTree02
-  entities:
   - uid: 5121
     components:
     - type: Transform
@@ -122654,8 +122632,6 @@ entities:
     - type: Transform
       pos: -13.640928,77.0639
       parent: 2
-- proto: FloraTree03
-  entities:
   - uid: 8080
     components:
     - type: Transform
@@ -122677,8 +122653,6 @@ entities:
       rot: -1.5707963267948966 rad
       pos: -9.365815,45.47372
       parent: 2
-- proto: FloraTree04
-  entities:
   - uid: 30356
     components:
     - type: Transform
@@ -122689,8 +122663,6 @@ entities:
     - type: Transform
       pos: 41.691067,-28.712173
       parent: 2
-- proto: FloraTree05
-  entities:
   - uid: 6284
     components:
     - type: Transform
@@ -122712,8 +122684,6 @@ entities:
       rot: 3.141592653589793 rad
       pos: 1.4963851,-37.686043
       parent: 2
-- proto: FloraTree06
-  entities:
   - uid: 2376
     components:
     - type: Transform
@@ -122729,21 +122699,19 @@ entities:
     - type: Transform
       pos: 64.306854,0.38446856
       parent: 2
-- proto: FloraTreeConifer01
+- proto: FloraTreeConifer
   entities:
   - uid: 8078
     components:
     - type: Transform
       pos: -89.70616,-12.131908
       parent: 2
-- proto: FloraTreeConifer03
-  entities:
   - uid: 8084
     components:
     - type: Transform
       pos: -80.62804,-8.819408
       parent: 2
-- proto: FloraTreeLarge01
+- proto: FloraTreeLarge
   entities:
   - uid: 10064
     components:
@@ -122762,8 +122730,6 @@ entities:
       rot: -1.5707963267948966 rad
       pos: 1.5194097,53.32902
       parent: 2
-- proto: FloraTreeLarge02
-  entities:
   - uid: 3908
     components:
     - type: Transform
@@ -122779,8 +122745,6 @@ entities:
     - type: Transform
       pos: 46.742813,0.87966824
       parent: 2
-- proto: FloraTreeLarge03
-  entities:
   - uid: 5118
     components:
     - type: Transform
@@ -122791,23 +122755,17 @@ entities:
     - type: Transform
       pos: -13.496889,78.47229
       parent: 2
-- proto: FloraTreeLarge04
-  entities:
   - uid: 30643
     components:
     - type: Transform
       pos: 16.467203,76.519165
       parent: 2
-- proto: FloraTreeLarge05
-  entities:
   - uid: 20226
     components:
     - type: Transform
       rot: -1.5707963267948966 rad
       pos: 3.5813708,14.038962
       parent: 2
-- proto: FloraTreeLarge06
-  entities:
   - uid: 7888
     components:
     - type: Transform
@@ -122818,15 +122776,13 @@ entities:
     - type: Transform
       pos: -100.976654,11.765398
       parent: 2
-- proto: FloraTreeSnow01
+- proto: FloraTreeSnow
   entities:
   - uid: 8081
     components:
     - type: Transform
       pos: -89.09679,-10.772533
       parent: 2
-- proto: FloraTreeSnow04
-  entities:
   - uid: 8082
     components:
     - type: Transform
@@ -202421,7 +202377,7 @@ entities:
     - type: Transform
       pos: -48.736313,27.502619
       parent: 2
-- proto: ShadowTree01
+- proto: ShadowTree
   entities:
   - uid: 3376
     components:
@@ -202433,8 +202389,6 @@ entities:
     - type: Transform
       pos: -69.236984,33.44146
       parent: 2
-- proto: ShadowTree02
-  entities:
   - uid: 10125
     components:
     - type: Transform
@@ -202462,8 +202416,6 @@ entities:
       rot: -1.5707963267948966 rad
       pos: -8.584565,46.419033
       parent: 2
-- proto: ShadowTree03
-  entities:
   - uid: 4685
     components:
     - type: Transform
@@ -202475,8 +202427,6 @@ entities:
       rot: 1.5707963267948966 rad
       pos: 45.734314,11.295286
       parent: 2
-- proto: ShadowTree04
-  entities:
   - uid: 799
     components:
     - type: Transform
@@ -202520,8 +202470,6 @@ entities:
     - type: Transform
       pos: -31.40168,3.79151
       parent: 2
-- proto: ShadowTree05
-  entities:
   - uid: 673
     components:
     - type: Transform
@@ -202560,8 +202508,6 @@ entities:
     - type: Transform
       pos: -29.003242,4.5024476
       parent: 2
-- proto: ShadowTree06
-  entities:
   - uid: 669
     components:
     - type: Transform

@@ -9,3 +9,15 @@ clone-no-clone = У вас нет копии себя!
 clone-crit-clone = Связь с двойником крайне слаба!
 clone-no-original = У вас нет оригинального тела!
 clone-crit-original = Связь с оригинальным телом крайне слаба!
+
+action-name-telepathy = Направленная телепатия
+action-description-telepathy = Вонзает твою мысль прямо в разум цели, заставляя её услышать тебя.
+telepathy-title = Направленная телепатия
+telepathy-message = Сообщение
+
+action-name-polymorph = Полиморф
+action-description-polymorph = Сотри себя с этого мира, приняв чужую оболочку души
+action-name-revert-polymorph = Обратить полиморф
+action-description-revert-polymorph = Вернуться в исходное состояние
+polymorph-power-initialization-feedback = Кто-то зовёт меня сзади, я оборачиваюсь. Но там никого нет, там абсолютное ничто, нет даже самой пустоты пространства. Я не помню своего имени, я потерял своё происхождение, у меня нет прошлого, только будущее, которое я вынужден прожить под ярлыком имени из паспорта, но я отказываюсь.
+
