@@ -4,7 +4,7 @@
   text: "/ServerInfo/Guidebook/Antagonist/Antagonists.xml"
   children:
   - Traitors
-  - Thieves
+#  - Thieves # WWDP EDIT
   - Revolutionaries
   - NuclearOperatives
   - SpaceNinja
@@ -18,7 +18,6 @@
   - Shadowlings
   # WD EDIT START
   - BloodCult
-  - Headcrabs
   # WD EDIT END
 
 - type: guideEntry
@@ -50,12 +49,12 @@
   id: SpaceNinja
   name: guide-entry-space-ninja
   text: "/ServerInfo/Guidebook/Antagonist/SpaceNinja.xml"
-
-- type: guideEntry
-  id: Thieves
-  name: guide-entry-thieves
-  text: "/ServerInfo/Guidebook/Antagonist/Thieves.xml"
-
+# WWDP EDIT START
+#- type: guideEntry
+#  id: Thieves
+#  name: guide-entry-thieves
+#  text: "/ServerInfo/Guidebook/Antagonist/Thieves.xml"
+# WWDP EDIT END
 - type: guideEntry
   id: Wizard
   name: guide-entry-wizard

@@ -15,8 +15,24 @@ namespace Content.Server.Power.Components
         ///     Amount of charge this needs from an APC per second to function.
         /// </summary>
         [ViewVariables(VVAccess.ReadWrite)]
+
+        private float _mainLoad = 5;
+        private float _sideLoad;
+        
         [DataField("powerLoad")]
-        public float Load { get => NetworkLoad.DesiredPower; set => NetworkLoad.DesiredPower = value; }
+        public float Load { get => _mainLoad;
+            set { _mainLoad = value; NetworkLoad.DesiredPower = _mainLoad + _sideLoad; }
+            }
+
+        [DataField("sidePowerLoad")]
+        public float SideLoad
+        {
+            get => _sideLoad;
+            set { _sideLoad = value; NetworkLoad.DesiredPower = _mainLoad + _sideLoad; }
+        }
+
+        [ViewVariables(VVAccess.ReadOnly)]
+        public float FullLoad => _mainLoad + _sideLoad;
 
         public ApcPowerProviderComponent? Provider = null;
 
@@ -24,7 +40,7 @@ namespace Content.Server.Power.Components
         ///     When false, causes this to appear powered even if not receiving power from an Apc.
         /// </summary>
         [ViewVariables(VVAccess.ReadWrite)]
-        public bool NeedsPower
+        public override bool NeedsPower
         {
             get => _needsPower;
             set
@@ -41,9 +57,9 @@ namespace Content.Server.Power.Components
         /// <summary>
         ///     When true, causes this to never appear powered.
         /// </summary>
-        [ViewVariables(VVAccess.ReadWrite)]
         [DataField("powerDisabled")]
-        public bool PowerDisabled {
+        public override bool PowerDisabled
+        {
             get => !NetworkLoad.Enabled;
             set => NetworkLoad.Enabled = !value;
         }
@@ -58,5 +74,11 @@ namespace Content.Server.Power.Components
         };
 
         public float PowerReceived => NetworkLoad.ReceivingPower;
+
+
+        [ViewVariables(VVAccess.ReadOnly)]
+        public float SideLoadFraction => _sideLoad > 0 && _needsPower ? MathHelper.Clamp01((NetworkLoad.ReceivingPower - _mainLoad) / _sideLoad) : 1;
+
+        public float LastSideLoadFraction;
     }
 }

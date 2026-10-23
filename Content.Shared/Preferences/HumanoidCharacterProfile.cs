@@ -53,10 +53,11 @@ public sealed partial class HumanoidCharacterProfile : ICharacterProfile
     private HashSet<ProtoId<TraitPrototype>> _traitPreferences = new();
 
     /// <see cref="_loadoutPreferences"/>
-    public HashSet<LoadoutPreference> LoadoutPreferences => _loadoutPreferences;
+    public Dictionary<string, Loadout> LoadoutPreferences => _loadoutPreferences; // WWDP EDIT
+    public IEnumerable<Loadout> LoadoutPreferencesList => _loadoutPreferences.Values; // WWDP EDIT
 
     [DataField]
-    private HashSet<LoadoutPreference> _loadoutPreferences = new();
+    private Dictionary<string, Loadout> _loadoutPreferences = new(); // WWDP EDIT
 
     [DataField]
     public string Name { get; set; } = "John Doe";
@@ -184,7 +185,7 @@ public sealed partial class HumanoidCharacterProfile : ICharacterProfile
         PreferenceUnavailableMode preferenceUnavailable,
         HashSet<ProtoId<AntagPrototype>> antagPreferences,
         HashSet<ProtoId<TraitPrototype>> traitPreferences,
-        HashSet<LoadoutPreference> loadoutPreferences)
+        Dictionary<string, Loadout> loadoutPreferences) // WWDP EDIT
     {
         Name = name;
         FlavorText = flavortext;
@@ -264,7 +265,7 @@ public sealed partial class HumanoidCharacterProfile : ICharacterProfile
             other.PreferenceUnavailable,
             new HashSet<ProtoId<AntagPrototype>>(other.AntagPreferences),
             new HashSet<ProtoId<TraitPrototype>>(other.TraitPreferences),
-            new HashSet<LoadoutPreference>(other.LoadoutPreferences))
+            new Dictionary<string, Loadout>(other.LoadoutPreferences)) // WWDP EDIT
     {
     }
 
@@ -300,6 +301,8 @@ public sealed partial class HumanoidCharacterProfile : ICharacterProfile
             Nationality = SharedHumanoidAppearanceSystem.DefaultNationality,
             Employer = SharedHumanoidAppearanceSystem.DefaultEmployer,
             Lifepath = SharedHumanoidAppearanceSystem.DefaultLifepath,
+            Height = speciesPrototype?.DefaultHeight ?? 1f, // WWDP EDIT
+            Width = speciesPrototype?.DefaultWidth ?? 1f, // WWDP EDIT
         };
     }
 
@@ -368,6 +371,8 @@ public sealed partial class HumanoidCharacterProfile : ICharacterProfile
             Voice = voiceId, // WD EDIT
             BodyType = bodyType, // WD EDIT
             Species = species,
+            Height = speciesPrototype?.DefaultHeight ?? 1f, // WWDP EDIT
+            Width = speciesPrototype?.DefaultWidth ?? 1f, // WWDP EDIT
             Appearance = HumanoidCharacterAppearance.Random(species, sex),
             Nationality = SharedHumanoidAppearanceSystem.DefaultNationality,
             Employer = SharedHumanoidAppearanceSystem.DefaultEmployer,
@@ -495,33 +500,14 @@ public sealed partial class HumanoidCharacterProfile : ICharacterProfile
         return new(this) { _traitPreferences = list };
     }
 
-    public HumanoidCharacterProfile WithLoadoutPreference(
-        string loadoutId,
-        bool pref,
-        string? customName = null,
-        string? customDescription = null,
-        string? customContent = null, // WD EDIT
-        string? customColor = null,
-        bool? customHeirloom = null)
+    // WWDP EDIT START
+    // I'll rip the hands off whoever coded this piece of shit named Loadouts
+    public HumanoidCharacterProfile WithLoadoutPreference(List<Loadout> loadouts)
     {
-        // WD EDIT START
-        if (customContent is { Length: > MaxCustomContentLength, })
-        {
-            var truncated = customContent.AsSpan(0, MaxCustomContentLength);
-            while (truncated.Length > 0 && char.IsLowSurrogate(truncated[^1]))
-                truncated = truncated[..^1];
-            customContent = truncated.ToString();
-        }
-        // WD EDIT END
-
-        var list = new HashSet<LoadoutPreference>(_loadoutPreferences);
-
-        list.RemoveWhere(l => l.LoadoutName == loadoutId);
-        if (pref)
-            list.Add(new(loadoutId, customName, customDescription, customContent, customColor, customHeirloom) { Selected = pref }); // WD EDIT
-
-        return new HumanoidCharacterProfile(this) { _loadoutPreferences = list };
+        var dictionary = loadouts.ToDictionary(p => p.LoadoutName);
+        return new(this) { _loadoutPreferences = dictionary };
     }
+    // WWDP EDIT END
 
     public string Summary =>
         Loc.GetString(
@@ -549,6 +535,8 @@ public sealed partial class HumanoidCharacterProfile : ICharacterProfile
             // EE - Contractors Change End
             && PreferenceUnavailable == other.PreferenceUnavailable
             && SpawnPriority == other.SpawnPriority
+            && Height == other.Height // WD EDIT
+            && Width == other.Width // WD EDIT
             && _jobPriorities.SequenceEqual(other._jobPriorities)
             && _antagPreferences.SequenceEqual(other._antagPreferences)
             && _traitPreferences.SequenceEqual(other._traitPreferences)
@@ -594,6 +582,8 @@ public sealed partial class HumanoidCharacterProfile : ICharacterProfile
         };
 
         var bodyType = speciesPrototype.BodyTypes.Contains(BodyType) ? BodyType : speciesPrototype.BodyTypes.First(); // WD EDIT
+        var height = Height <= 0 ? speciesPrototype.DefaultHeight : Math.Clamp(Height, speciesPrototype.MinHeight, speciesPrototype.MaxHeight); // WD EDIT
+        var width = Width <= 0 ? speciesPrototype.DefaultWidth : Math.Clamp(Width, speciesPrototype.MinWidth, speciesPrototype.MaxWidth); // WD EDIT
 
         string name;
         if (string.IsNullOrEmpty(Name))
@@ -694,8 +684,7 @@ public sealed partial class HumanoidCharacterProfile : ICharacterProfile
             .ToList();
 
         var loadouts = LoadoutPreferences
-            .Where(l => prototypeManager.HasIndex<LoadoutPrototype>(l.LoadoutName))
-            .Distinct()
+            .Where(l => prototypeManager.HasIndex<LoadoutPrototype>(l.Key))
             .ToList();
 
         Name = name;
@@ -705,6 +694,8 @@ public sealed partial class HumanoidCharacterProfile : ICharacterProfile
         Sex = sex;
         Gender = gender;
         BodyType = bodyType; // WD EDIT
+        Height = height; // WD EDIT
+        Width = width; // WD EDIT
         Appearance = appearance;
         SpawnPriority = spawnPriority;
 
@@ -724,7 +715,6 @@ public sealed partial class HumanoidCharacterProfile : ICharacterProfile
         _traitPreferences.UnionWith(traits);
 
         _loadoutPreferences.Clear();
-        _loadoutPreferences.UnionWith(loadouts);
 
         // WD EDIT START
         prototypeManager.TryIndex<TTSVoicePrototype>(Voice, out var voice);
@@ -734,25 +724,26 @@ public sealed partial class HumanoidCharacterProfile : ICharacterProfile
         if(!CanHaveBark(prototypeManager, collection))
             BarkVoice = SharedHumanoidAppearanceSystem.DefaultBarkVoice;
 
-        for (var i = 0; i < loadouts.Count; i++)
+        foreach (var (key, loadout) in loadouts)
         {
-          var loadout = loadouts[i];
-          if (loadout.CustomContent is not { Length: > MaxCustomContentLength, })
-              continue;
-          var truncated = loadout.CustomContent.AsSpan(0, MaxCustomContentLength);
-          while (truncated.Length > 0 && char.IsLowSurrogate(truncated[^1]))
-              truncated = truncated[..^1];
+            if (loadout.CustomContent is not { Length: > MaxCustomContentLength, })
+            {
+                _loadoutPreferences[key] = loadout;
+                continue;
+            }
+            var truncated = loadout.CustomContent.AsSpan(0, MaxCustomContentLength);
+            while (truncated.Length > 0 && char.IsLowSurrogate(truncated[^1]))
+                truncated = truncated[..^1];
 
-          var truncatedLoadout = new LoadoutPreference(
-                  loadout.LoadoutName,
-                  loadout.CustomName,
-                  loadout.CustomDescription,
-                  truncated.ToString(),
-                  loadout.CustomColorTint,
-                  loadout.CustomHeirloom)
-              { Selected = loadout.Selected, };
+            var truncatedLoadout = new Loadout(
+                    loadout.LoadoutName,
+                    loadout.CustomName,
+                    loadout.CustomDescription,
+                    truncated.ToString(),
+                    loadout.CustomColorTint,
+                    loadout.CustomHeirloom);
 
-          loadouts[i] = truncatedLoadout;
+            _loadoutPreferences[key] = truncatedLoadout;
         }
         // WD EDIT END
     }
@@ -844,6 +835,8 @@ public sealed partial class HumanoidCharacterProfile : ICharacterProfile
         hashCode.Add(BodyType); // WD EDIT
         hashCode.Add(BarkVoice); // WD EDIT
         hashCode.Add(BarkSettings); // WD EDIT
+        hashCode.Add(Height); // WWDP EDIT
+        hashCode.Add(Width);  // WWDP EDIT
         hashCode.Add(Appearance);
         hashCode.Add((int) SpawnPriority);
         hashCode.Add((int) PreferenceUnavailable);

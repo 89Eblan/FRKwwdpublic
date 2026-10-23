@@ -1,59 +1,59 @@
-ent-SpawnPointSeniorResearcher = Точка спавна ведущего исследователя
-   .desc = ""
+ent-SpawnPointSeniorResearcher = точка спавна ведущего исследователя
+   .desc = { "" }
 
-ent-SpawnPointSeniorOfficer = Точка спавна ветерана СБ
-   .desc = ""
+ent-SpawnPointSeniorOfficer = точка спавна ветерана СБ
+   .desc = { "" }
 
-ent-SpawnPointBrigmedic = Точка спавна бригмедика
-   .desc = ""
+ent-SpawnPointBrigmedic = точка спавна бригмедика
+   .desc = { "" }
 
-ent-SpawnMechRipley = Спавнер рипли
-   .desc = ""
+ent-SpawnMechRipley = спавнер рипли
+   .desc = { "" }
 
-ent-SpawnMechHonker = Спавнер Х.О.Н.К'а
-   .desc = ""
+ent-SpawnMechHonker = спавнер Х.О.Н.К'а
+   .desc = { "" }
 
-ent-SpawnMobCatBingus = Спавнер бингуса
-   .desc = ""
+ent-SpawnMobCatBingus = спавнер бингуса
+   .desc = { "" }
 
-ent-SpawnMobCatSpace = Спавнер космической кошки
-   .desc = ""
+ent-SpawnMobCatSpace = спавнер космической кошки
+   .desc = { "" }
 
-ent-SpawnMobShiva = Спавнер Шивы
-   .desc = ""
+ent-SpawnMobShiva = спавнер Шивы
+   .desc = { "" }
 
-ent-SpawnMobKangarooWillow = Спавнер Уиллоуа
-   .desc = ""
+ent-SpawnMobKangarooWillow = спавнер Уиллоуа
+   .desc = { "" }
 
-ent-SpawnMobKangaroo = Спавнер космического кенгуру
-   .desc = ""
+ent-SpawnMobKangaroo = спавнер космического кенгуру
+   .desc = { "" }
 
-ent-SpawnMobBoxingKangaroo = Спавнер боксёрского кенгуру
-   .desc = ""
+ent-SpawnMobBoxingKangaroo = спавнер боксёрского кенгуру
+   .desc = { "" }
 
-ent-SpawnMobSpaceSpider = Спавнер космического паука
-   .desc = ""
+ent-SpawnMobSpaceSpider = спавнер космического паука
+   .desc = { "" }
 
-ent-SpawnMobAdultSlimesBlue = Спавнер синего слайма
-   .desc = ""
+ent-SpawnMobAdultSlimesBlue = спавнер синего слайма
+   .desc = { "" }
 
-ent-SpawnMobAdultSlimesBlueAngry = Спавнер злого синего слайма
-   .desc = ""
+ent-SpawnMobAdultSlimesBlueAngry = спавнер злого синего слайма
+   .desc = { "" }
 
-ent-SpawnMobAdultSlimesGreen = Спавнер зеленого слайма
-   .desc = ""
+ent-SpawnMobAdultSlimesGreen = спавнер зеленого слайма
+   .desc = { "" }
 
-ent-SpawnMobAdultSlimesGreenAngry = Спавнер злого зеленого слайма
-   .desc = ""
+ent-SpawnMobAdultSlimesGreenAngry = спавнер злого зеленого слайма
+   .desc = { "" }
 
-ent-SpawnMobAdultSlimesYellow = Спавнер жёлтого слайма
-   .desc = ""
+ent-SpawnMobAdultSlimesYellow = спавнер жёлтого слайма
+   .desc = { "" }
 
-ent-SpawnMobAdultSlimesYellowAngry = Спавнер злого желтого слайма
-   .desc = ""
+ent-SpawnMobAdultSlimesYellowAngry = спавнер злого желтого слайма
+   .desc = { "" }
 
-ent-SpawnMobSmile = Спавнер слайма Улыбкин
-   .desc = ""
+ent-SpawnMobSmile = спавнер слайма Улыбкин
+   .desc = { "" }
 
-ent-SpawnMobMonkeyPunpun = Спавнер Пун Пун
-   .desc = ""
+ent-SpawnMobMonkeyPunpun = спавнер Пун Пун
+   .desc = { "" }

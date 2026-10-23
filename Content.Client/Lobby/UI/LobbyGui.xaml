@@ -25,11 +25,11 @@
                                   HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0 8" />
                     <!-- Vertical Padding -->
                     <Control VerticalExpand="True" />
-                    <RichTextLabel Name="LabelName" Access="Public" HorizontalAlignment="Left"
+                    <RichTextLabel Name="ServerName" Access="Public" HorizontalAlignment="Left"
                                    VerticalAlignment="Center" Margin="20 0 0 420" />
                     <!-- Left Bot Panel -->
                     <PanelContainer Name="BottomLeftPanel" HorizontalAlignment="Left" VerticalAlignment="Bottom">
-                        <BoxContainer Orientation="Vertical" SeparationOverride="4" Margin="2">  <!-- wwdp edit start -->
+                        <BoxContainer Orientation="Vertical" SeparationOverride="4" Margin="2">
                             <BoxContainer Orientation="Horizontal" SeparationOverride="4" Margin="6,8,6,8">
                                 <wdcontrols:CvarToggleableBoxContainer CVar="white.funny_features_enabled" Flip="True">
                                     <buttons:ViewPremiumInfoButton StyleClasses="NovaButton" SetSize="154 64">
@@ -51,7 +51,7 @@
                                     </BoxContainer>
                                 </PanelContainer>
                             </BoxContainer>
-                        </BoxContainer>   <!-- wwdp edit end -->
+                        </BoxContainer>
                     </PanelContainer>
                     <!-- Left Panel -->
                     <PanelContainer HorizontalAlignment="Left" Name="Center" VerticalAlignment="Center">
@@ -104,16 +104,10 @@
                 </Control>
             </BoxContainer>
             <!-- Right Panel -->
-            <PanelContainer Name="RightSide" Access="Public" StyleClasses="AngleRect" HorizontalAlignment="Right" VerticalExpand="True"
+            <PanelContainer Name="RightSide" Access="Public" StyleClasses="ChatMainPanel" HorizontalAlignment="Right" VerticalExpand="True"
                             VerticalAlignment="Stretch">
                 <BoxContainer Orientation="Vertical" HorizontalExpand="True">
                     <!-- Top row -->
-                    <BoxContainer Orientation="Horizontal" MinSize="0 40" Name="HeaderContainer" Access="Public"
-                                  SeparationOverride="4">
-                        <Label Name="ServerName" Access="Public" StyleClasses="LabelHeadingBigger" VAlign="Center"
-                               HorizontalExpand="True" HorizontalAlignment="Left" />
-                    </BoxContainer>
-                    <controls:HSpacer Spacing="10" />
                     <Control Margin="0,3,0,0">
                         <PanelContainer StyleClasses="PaperBackground" Margin="5,10,5,5">
                             <BoxContainer Orientation="Horizontal">

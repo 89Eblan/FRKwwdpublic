@@ -1,57 +1,57 @@
-ent-EffectEmpPulse = ""
-   .desc = ""
+ent-EffectEmpPulse = { "" }
+   .desc = { "" }
 
-ent-EffectEmpDisabled = ""
-   .desc = ""
+ent-EffectEmpDisabled = { "" }
+   .desc = { "" }
 
-ent-SpawnMobFlesh = Спавнер плоти
-   .desc = ""
+ent-SpawnMobFlesh = спавнер плоти
+   .desc = { "" }
 
-ent-SpawnMobGiantSpider = Спавнер гигантского паука
-   .desc = ""
+ent-SpawnMobGiantSpider = спавнер гигантского паука
+   .desc = { "" }
 
-ent-SpawnMobXenos = Спавнер ксено
-   .desc = ""
+ent-SpawnMobXenos = спавнер ксено
+   .desc = { "" }
 
-ent-SpawnMobXenoPraetorian = Спавнер ксено преторианца
-   .desc = ""
+ent-SpawnMobXenoPraetorian = спавнер ксено преторианца
+   .desc = { "" }
 
-ent-SpawnMobXenoDrone = Спавнер ксено дрона
-   .desc = ""
+ent-SpawnMobXenoDrone = спавнер ксено дрона
+   .desc = { "" }
 
-ent-SpawnMobXenoQueen = Спавнер ксено королевы
-   .desc = ""
+ent-SpawnMobXenoQueen = спавнер ксено королевы
+   .desc = { "" }
 
-ent-SpawnMobXenoRavager = Спавнер ксено разрушителя
-   .desc = ""
+ent-SpawnMobXenoRavager = спавнер ксено разрушителя
+   .desc = { "" }
 
-ent-SpawnMobXenoRunner = Спавнер ксено бегуна
-   .desc = ""
+ent-SpawnMobXenoRunner = спавнер ксено бегуна
+   .desc = { "" }
 
-ent-SpawnMobXenoRouny = Спавнер ксено руни
-   .desc = ""
+ent-SpawnMobXenoRouny = спавнер ксено руни
+   .desc = { "" }
 
-ent-SpawnMobXenoSpitter = Спавнер ксено плевальщика
-   .desc = ""
+ent-SpawnMobXenoSpitter = спавнер ксено плевальщика
+   .desc = { "" }
 
-ent-SpawnMobXenoTurret = Спавнер ксено турели
-   .desc = ""
+ent-SpawnMobXenoTurret = спавнер ксено турели
+   .desc = { "" }
 
-ent-SpawnMobXenoTower = Спавнер ксено башни
-   .desc = ""
+ent-SpawnMobXenoTower = спавнер ксено башни
+   .desc = { "" }
 
 ent-MobRandomServiceCorpse = неизвестный лакей
-   .desc = "Его дни сочтены. По униформе похож на обслугу."
-   .suffix = "Мертвый"
+   .desc = Его дни сочтены. По униформе похож на обслугу.
+   .suffix = Мертвый
 
 ent-MobRandomEngineerCorpse = неизвестный инженер
-   .desc = "Его рука больше не может держать лом."
-   .suffix = "Мертвый"
+   .desc = Его рука больше не может держать лом.
+   .suffix = Мертвый
 
 ent-MobRandomCargoCorpse = неизвестный грузчик
-   .desc = "Они же не могут восстать из мертвых, да?"
-   .suffix = "Мертвый"
+   .desc = Они же не могут восстать из мертвых, да?
+   .suffix = Мертвый
 
 ent-MobRandomMedicCorpse = неизвестный врач
-   .desc = "Мазь и бинты здесь уже не помогут."
-   .suffix = "Мертвый"
+   .desc = Мазь и бинты здесь уже не помогут.
+   .suffix = Мертвый

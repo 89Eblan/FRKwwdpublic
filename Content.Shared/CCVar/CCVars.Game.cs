@@ -352,7 +352,7 @@ public sealed partial class CCVars
     ///     How many points a character should start with.
     /// </summary>
     public static readonly CVarDef<int> GameTraitsDefaultPoints =
-        CVarDef.Create("game.traits_default_points", 0, CVar.REPLICATED); // WD EDIT
+        CVarDef.Create("game.traits_default_points", 5, CVar.REPLICATED); // WD EDIT
 
     /// <summary>
     ///     Whether the game will SMITE people who used cheat engine to spawn with all of the traits.
@@ -440,6 +440,18 @@ public sealed partial class CCVars
     /// </summary>
     public static readonly CVarDef<bool> ContrabandExamine =
         CVarDef.Create("game.contraband_examine", false, CVar.SERVER | CVar.REPLICATED);
+
+    /// <summary>
+    /// Size of the lookup area for adding entities to the context menu
+    /// </summary>
+    public static readonly CVarDef<float> GameEntityMenuLookup =
+        CVarDef.Create("game.entity_menu_lookup", 0.25f, CVar.CLIENTONLY | CVar.ARCHIVE);
+
+    /// <summary>
+    ///     Should the clients window show the server hostname in the title?
+    /// </summary>
+    public static readonly CVarDef<bool> GameHostnameInTitlebar =
+        CVarDef.Create("game.hostname_in_titlebar", true, CVar.SERVER | CVar.REPLICATED);
 
     /// <summary>
     /// Set to true to enable the dynamic hostname system.

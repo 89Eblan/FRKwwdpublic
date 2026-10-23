@@ -20,8 +20,8 @@
     - map: [ "enum.HumanoidVisualLayers.LArm" ]
     - map: [ "enum.HumanoidVisualLayers.RLeg" ]
     - map: [ "enum.HumanoidVisualLayers.LLeg" ]
-    - map: [ "enum.HumanoidVisualLayers.Underwear" ]
-    - map: [ "enum.HumanoidVisualLayers.Undershirt" ]
+    - map: [ "enum.HumanoidVisualLayers.UndergarmentBottom" ]
+    - map: [ "enum.HumanoidVisualLayers.UndergarmentTop" ]
     - map: ["jumpsuit"]
     - map: ["enum.HumanoidVisualLayers.LFoot"]
     - map: ["enum.HumanoidVisualLayers.RFoot"]
@@ -32,12 +32,12 @@
     - map: [ "ears" ]
     - map: [ "innerBelt" ]
     - map: [ "innerNeck" ]
-    - map: [ "outerClothing" ]
     - map: [ "eyes" ]
     - map: [ "belt" ]
     - map: [ "id" ]
-    - map: [ "neck" ]
+    - map: [ "outerClothing" ]
     - map: [ "back" ]
+    - map: [ "neck" ]
     - map: [ "enum.HumanoidVisualLayers.FacialHair" ]
     - map: [ "enum.HumanoidVisualLayers.Hair" ]
     - map: [ "enum.HumanoidVisualLayers.HeadSide" ]
@@ -249,8 +249,16 @@
   - type: SurgeryTarget
   - type: MovedByPressure
     cutoffTime: 1.0
-  - type: TTS # WD EDIT
-  - type: ExaminableCharacter # WWDP
+  # WD EDIT START
+  - type: TTS
+  - type: ExaminableCharacter
+  - type: OfferItem
+  - type: LayingDown
+  - type: MobState
+    allowMovementWhileCrit: true
+    allowMovementWhileSoftCrit: true
+  - type: MobThresholdSounds
+  # WD EDIT END
 
 - type: entity
   save: false
@@ -319,13 +327,8 @@
         Asphyxiation: -1.0
   - type: FireVisuals
     alternateState: Standing
-  - type: OfferItem
-  - type: LayingDown
   - type: BloodstreamAffectedByMass
     power: 0.6 # A minimum size felinid will have 30% blood, a minimum size vulp will have 60%, a maximum size oni will have ~200%
-  - type: MobState # WWDP
-    allowMovementWhileCrit: true
-    allowMovementWhileSoftCrit: true
 
 - type: entity
   save: false
@@ -353,8 +356,8 @@
     - map: [ "enum.HumanoidVisualLayers.LArm" ]
     - map: [ "enum.HumanoidVisualLayers.RLeg" ]
     - map: [ "enum.HumanoidVisualLayers.LLeg" ]
-    - map: [ "enum.HumanoidVisualLayers.Underwear" ]
-    - map: [ "enum.HumanoidVisualLayers.Undershirt" ]
+    - map: [ "enum.HumanoidVisualLayers.UndergarmentBottom" ]
+    - map: [ "enum.HumanoidVisualLayers.UndergarmentTop" ]
     - map: ["jumpsuit"]
     - map: ["enum.HumanoidVisualLayers.LFoot"]
     - map: ["enum.HumanoidVisualLayers.RFoot"]
@@ -370,12 +373,12 @@
     - map: [ "ears" ]
     - map: [ "innerBelt" ]
     - map: [ "innerNeck" ]
-    - map: [ "outerClothing" ]
     - map: [ "eyes" ]
     - map: [ "belt" ]
     - map: [ "id" ]
-    - map: [ "neck" ]
+    - map: [ "outerClothing" ]
     - map: [ "back" ]
+    - map: [ "neck" ]
     - map: [ "enum.HumanoidVisualLayers.FacialHair" ]
     - map: [ "enum.HumanoidVisualLayers.Hair" ]
     - map: [ "enum.HumanoidVisualLayers.HeadSide" ]

@@ -104,9 +104,9 @@ namespace Content.Client.Lobby.UI
         // EE - Contractor System Changes End
 
         private Dictionary<Button, ConfirmationData> _confirmationData = new();
+        private Dictionary<LoadoutPrototype, bool> _loadouts = new(); // WD EDIT
         private List<TraitPreferenceSelector> _traitPreferences = new();
         private int _traitCount;
-        private HashSet<LoadoutPreferenceSelector> _loadoutPreferences = new();
 
         private bool _customizePronouns;
         private bool _customizeStationAiName;
@@ -145,6 +145,8 @@ namespace Content.Client.Lobby.UI
         private const string MimeNames = "MimeNames";
 
         private const string Uncategorized = "Uncategorized";
+
+        public SpriteView? CharacterSpriteView;
         // WD EDIT END
 
         public HumanoidProfileEditor(
@@ -563,7 +565,7 @@ namespace Content.Client.Lobby.UI
             {
                 PreferenceUnavailableButton.SelectId(args.Id);
                 Profile = Profile?.WithPreferenceUnavailable((PreferenceUnavailableMode) args.Id);
-                IsDirty = true;
+                SetDirty();
             };
 
             _jobCategories = new Dictionary<string, BoxContainer>();
@@ -592,35 +594,20 @@ namespace Content.Client.Lobby.UI
 
             TraitsShowUnusableButton.OnToggled += args => UpdateTraits(args.Pressed);
             TraitsRemoveUnusableButton.OnPressed += _ => TryRemoveUnusableTraits();
+            // WWDP EDIT START
+            LoadoutsShowUnusableButton.OnToggled += args =>
+            {
+                Loadouts.ShowUnusable = args.Pressed;
+                UpdateLoadouts();
+            };
+            LoadoutsRemoveUnusableButton.OnPressed += _ => TryRemoveUnusableLoadouts();
+            // WWDP EDIT END
 
             UpdateTraits(false);
 
             #endregion
 
-            #region Loadouts
-
-            // Set up the loadouts tab
-            LoadoutsTab.Orphan();
-            CTabContainer.AddTab(LoadoutsTab, Loc.GetString("humanoid-profile-editor-loadouts-tab"));
-            _loadoutPreferences = new();
-
-            // Show/Hide the loadouts tab if they ever get enabled/disabled
-            var loadoutsEnabled = cfgManager.GetCVar(CCVars.GameLoadoutsEnabled);
-            CTabContainer.SetTabVisible(4, loadoutsEnabled);
-            ShowLoadouts.Visible = loadoutsEnabled;
-            cfgManager.OnValueChanged(CCVars.GameLoadoutsEnabled, LoadoutsChanged);
-
-            LoadoutsShowUnusableButton.OnToggled += args => UpdateLoadouts(args.Pressed);
-            LoadoutsRemoveUnusableButton.OnPressed += _ => TryRemoveUnusableLoadouts();
-
-            UpdateLoadouts(false);
-
-            #endregion
-
             #region Markings
-
-            MarkingsTab.Orphan();
-            CTabContainer.AddTab(MarkingsTab, Loc.GetString("humanoid-profile-editor-markings-tab"));
 
             Markings.OnMarkingAdded += OnMarkingChange;
             Markings.OnMarkingRemoved += OnMarkingChange;
@@ -640,6 +627,8 @@ namespace Content.Client.Lobby.UI
             UpdateSpeciesGuidebookIcon();
 
             ReloadPreview();
+            InitializeCharacterMenu(); // WWDP EDIT
+            InitializeSpeciesSelection(); // WWDP EDIT;
             IsDirty = false;
         }
 
@@ -944,10 +933,7 @@ namespace Content.Client.Lobby.UI
                 return;
 
             PreviewDummy = _controller.LoadProfileEntity(Profile, null, ShowClothes.Pressed, ShowLoadouts.Pressed);
-            SpriteViewS.SetEntity(PreviewDummy);
-            SpriteViewN.SetEntity(PreviewDummy);
-            SpriteViewE.SetEntity(PreviewDummy);
-            SpriteViewW.SetEntity(PreviewDummy);
+            CharacterSpriteView?.SetEntity(PreviewDummy); // WWDP EDIT
 
             // Check and set the dirty flag to enable the save/reset buttons as appropriate.
             SetDirty();
@@ -989,6 +975,8 @@ namespace Content.Client.Lobby.UI
             IsDirty = false;
             JobOverride = null;
 
+            Loadouts.ClearCustomValues(); // WD EDIT
+
             UpdateNameEdit();
             UpdateFlavorTextEdit();
             UpdateSexControls();
@@ -1009,6 +997,8 @@ namespace Content.Client.Lobby.UI
             UpdateEyePickers();
             UpdateSaveButton();
             UpdateMarkings();
+            UpdateLoadouts(); // WD EDIT
+            CheckpointLoadouts(); // WD EDIT
             UpdateHairPickers();
             UpdateCMarkingsHair();
             UpdateCMarkingsFacialHair();
@@ -1048,7 +1038,6 @@ namespace Content.Client.Lobby.UI
             }
 
             TraitsTabs.UpdateTabMerging();
-            LoadoutsTabs.UpdateTabMerging();
 
             // Check and set the dirty flag to enable the save/reset buttons as appropriate.
             SetDirty();
@@ -1505,14 +1494,14 @@ namespace Content.Client.Lobby.UI
         {
             Profile = Profile?.WithHeight(height);
             IsDirty = true;
-            ReloadProfilePreview();
+            UpdateWeight(); // WWDP EDIT
         }
 
         private void SetProfileWidth(float width)
         {
             Profile = Profile?.WithWidth(width);
             IsDirty = true;
-            ReloadProfilePreview();
+            UpdateWeight(); // WWDP EDIT
         }
 
         public bool IsDirty
@@ -1543,7 +1532,10 @@ namespace Content.Client.Lobby.UI
         private void UpdateFlavorTextEdit()
         {
             if (_flavorTextEdit != null)
+            { // WWDP EDIT
                 _flavorTextEdit.TextRope = new Rope.Leaf(Profile?.FlavorText ?? "");
+                _flavorText?.UpdateCharacterCount(); // WWDP EDIT
+            } // WWDP EDIT
         }
 
         private void UpdateAgeEdit()
@@ -1811,22 +1803,27 @@ namespace Content.Client.Lobby.UI
                 return;
 
             var species = _species.Find(x => x.ID == Profile?.Species) ?? _species.First();
+            HeightSlider.SetValueWithoutEvent(Profile?.Height ?? species.DefaultHeight); // WWDP EDIT
+            WidthSlider.SetValueWithoutEvent(Profile?.Width ?? species.DefaultWidth); // WWDP EDIT
 
             HeightSlider.MinValue = species.MinHeight;
             HeightSlider.MaxValue = species.MaxHeight;
-            HeightSlider.SetValueWithoutEvent(Profile?.Height ?? species.DefaultHeight);
+            // HeightSlider.SetValueWithoutEvent(Profile?.Height ?? species.DefaultHeight); // WWDP EDIT
 
             WidthSlider.MinValue = species.MinWidth;
             WidthSlider.MaxValue = species.MaxWidth;
-            WidthSlider.SetValueWithoutEvent(Profile?.Width ?? species.DefaultWidth);
+            // WidthSlider.SetValueWithoutEvent(Profile?.Width ?? species.DefaultWidth); // WWDP EDIT
 
-            var height = MathF.Round(species.AverageHeight * HeightSlider.Value);
+            HeightSlider.SetValueWithoutEvent(Math.Clamp(Profile?.Height ?? species.DefaultHeight, species.MinHeight, species.MaxHeight)); // WWDP EDIT
+            WidthSlider.SetValueWithoutEvent(Math.Clamp(Profile?.Width ?? species.DefaultWidth, species.MinWidth, species.MaxWidth)); // WWDP EDIT
+
+            var height = MathF.Round(species.AverageHeight * (Profile?.Height ?? species.DefaultHeight)); // WWDP EDIT
             HeightLabel.Text = Loc.GetString("humanoid-profile-editor-height-label", ("height", (int) height));
 
-            var width = MathF.Round(species.AverageWidth * WidthSlider.Value);
+            var width = MathF.Round(species.AverageWidth * (Profile?.Width ?? species.DefaultWidth)); // WWDP EDIT
             WidthLabel.Text = Loc.GetString("humanoid-profile-editor-width-label", ("width", (int) width));
 
-            UpdateDimensions(SliderUpdate.Both);
+            UpdateWeight(); // WWDP EDIT
         }
 
         private enum SliderUpdate
@@ -1872,6 +1869,8 @@ namespace Content.Client.Lobby.UI
             WidthLabel.Text = Loc.GetString("humanoid-profile-editor-width-label", ("width", (int) width));
 
             UpdateWeight();
+            ReloadProfilePreview(); // WWDP EDIT
+            IsDirty = true; // WWDP EDIT
         }
 
         private void UpdateWeight()
@@ -1886,6 +1885,17 @@ namespace Content.Client.Lobby.UI
             {
                 var radius = fixture.Fixtures["fix1"].Shape.Radius;
                 var density = fixture.Fixtures["fix1"].Density;
+                // WWDP EDIT START
+                foreach (var traitId in Profile.TraitPreferences)
+                {
+                    if (!_prototypeManager.TryIndex<TraitPrototype>(traitId, out var trait))
+                        continue;
+                    if (traitId == "Featherweight")
+                        density *= 0.5f;
+                    else if (traitId == "Bodybuilder")
+                        density += 55f;
+                }
+                // WWDP EDIT END
                 var avg = (Profile.Width + Profile.Height) / 2;
                 var weight = MathF.Round(MathF.PI * MathF.Pow(radius * avg, 2) * density);
                 WeightLabel.Text = Loc.GetString("humanoid-profile-editor-weight-label", ("weight", (int) weight));
@@ -1893,10 +1903,7 @@ namespace Content.Client.Lobby.UI
             else // Whelp, the fixture doesn't exist, guesstimate it instead
                 WeightLabel.Text = Loc.GetString("humanoid-profile-editor-weight-label", ("weight", (int) 71));
 
-            SpriteViewS.InvalidateMeasure();
-            SpriteViewN.InvalidateMeasure();
-            SpriteViewE.InvalidateMeasure();
-            SpriteViewW.InvalidateMeasure();
+            CharacterSpriteView?.InvalidateMeasure();
         }
 
         private void UpdateHairPickers()
@@ -2157,7 +2164,6 @@ namespace Content.Client.Lobby.UI
             {
                 foreach (var tab in TraitsTabs.TakenIds)
                     TraitsTabs.RemoveTab(tab);
-                _loadoutPreferences.Clear();
             }
 
 
@@ -2374,6 +2380,23 @@ namespace Content.Client.Lobby.UI
 
         #region Functions
 
+        private BoxContainer? FindCategory(string id, NeoTabContainer parent)
+        {
+            BoxContainer? match = null;
+
+            if(parent.TryFindTabByAlias(id, out var tabId))
+                match = parent.GetControl<BoxContainer>(tabId);
+
+
+            if (match != null)
+                return match;
+
+            foreach (var subcategory in parent.GetControls<NeoTabContainer>())
+                match ??= FindCategory(id, subcategory);
+
+            return match;
+        }
+
         private Dictionary<string, object> CreateTree(List<TraitCategoryPrototype> cats)
         {
             var tree = new Dictionary<string, object>();
@@ -2400,10 +2423,48 @@ namespace Content.Client.Lobby.UI
             return tree;
         }
 
+        // WWDP EDIT START
         private void HideEmptyTabs(List<TraitCategoryPrototype> cats)
         {
-            // TODO: HIDE LOGIC LATER
+            void CheckAndHideTabs(NeoTabContainer container)
+            {
+                foreach (var tabId in container.TakenIds.ToList())
+                {
+                    var tabControl = container.GetControl<Control>(tabId);
+                    if (tabControl == null) continue;
+
+                    container.SetTabVisible(tabId, true);
+
+                    var shouldHide = tabControl switch
+                    {
+                        NeoTabContainer nested => CheckNestedContainer(nested),
+                        BoxContainer box => !HasVisibleTraits(box),
+                        _ => false
+                    };
+
+                    if (shouldHide)
+                        container.SetTabVisible(tabId, false);
+                }
+            }
+
+            bool CheckNestedContainer(NeoTabContainer nested)
+            {
+                CheckAndHideTabs(nested);
+                return !nested.TakenIds.Any(id => nested.GetControl<Control>(id)?.Visible ?? false);
+            }
+
+            bool HasVisibleTraits(BoxContainer box)
+            {
+                return box.Children
+                    .OfType<ScrollContainer>()
+                    .SelectMany(scroll => scroll.Children.OfType<BoxContainer>())
+                    .SelectMany(inner => inner.Children.OfType<TraitPreferenceSelector>())
+                    .Any(selector => selector.Visible);
+            }
+
+            CheckAndHideTabs(TraitsTabs);
         }
+        // WWDP EDIT END
 
         private void TryRemoveUnusableTraits()
         {
@@ -2417,389 +2478,63 @@ namespace Content.Client.Lobby.UI
             UpdateCharacterRequired();
         }
 
-        #endregion
-
-        #endregion
-
-        #region Loadouts
-
-        #region Updates
-
-        private void UpdateLoadoutPreferences()
-        {
-            var points = _cfgManager.GetCVar(CCVars.GameLoadoutsPoints);
-            LoadoutPointsBar.Value = points;
-            LoadoutPointsLabel.Text = Loc.GetString("humanoid-profile-editor-loadouts-points-label", ("points", points), ("max", points));
-
-            foreach (var preferenceSelector in _loadoutPreferences)
-            {
-                var loadoutId = preferenceSelector.Loadout.ID;
-                var loadoutPreference = Profile?.LoadoutPreferences.FirstOrDefault(l => l.LoadoutName == loadoutId) ?? preferenceSelector.Preference;
-                var preference = new LoadoutPreference(
-                    loadoutPreference.LoadoutName,
-                    loadoutPreference.CustomName,
-                    loadoutPreference.CustomDescription,
-                    loadoutPreference.CustomContent, // WD EDIT
-                    loadoutPreference.CustomColorTint,
-                    loadoutPreference.CustomHeirloom)
-                    { Selected = loadoutPreference.Selected };
-
-                preferenceSelector.Preference = preference;
-
-                if (preference.Selected)
-                {
-                    points -= preferenceSelector.Loadout.Cost;
-                    LoadoutPointsBar.Value = points;
-                    LoadoutPointsLabel.Text = Loc.GetString("humanoid-profile-editor-loadouts-points-label", ("points", points), ("max", LoadoutPointsBar.MaxValue));
-                }
-            }
-
-            // Set the remove unusable button's label to have the correct amount of unusable loadouts
-            LoadoutsRemoveUnusableButton.Text = Loc.GetString("humanoid-profile-editor-loadouts-remove-unusable-button",
-                ("count", _loadouts
-                    .Where(l => _loadoutPreferences
-                        .Where(lps => lps.Preference.Selected).Select(lps => lps.Loadout).Contains(l.Key))
-                    .Count(l => !l.Value
-                        || !_loadoutPreferences.First(lps => lps.Loadout == l.Key).Wearable)));
-            AdminUIHelpers.RemoveConfirm(LoadoutsRemoveUnusableButton, _confirmationData);
-
-            IsDirty = true;
-            ReloadProfilePreview();
-        }
-
-        private Dictionary<LoadoutPrototype, bool> _loadouts = new();
-        private Dictionary<string, EntityUid> _dummyLoadouts = new();
-        public void UpdateLoadouts(bool? showUnusable = null, bool reload = false)
-        {
-            showUnusable ??= LoadoutsShowUnusableButton.Pressed;
-
-            // Reset loadout points so you don't get -14 points or something for no reason
-            var points = _cfgManager.GetCVar(CCVars.GameLoadoutsPoints);
-            LoadoutPointsLabel.Text = Loc.GetString("humanoid-profile-editor-loadouts-points-label", ("points", points), ("max", points));
-            LoadoutPointsBar.MaxValue = points;
-            LoadoutPointsBar.Value = points;
-
-            // Reset the whole UI and delete caches
-            if (reload)
-            {
-                foreach (var tab in LoadoutsTabs.TakenIds)
-                    LoadoutsTabs.RemoveTab(tab);
-                foreach (var uid in _dummyLoadouts)
-                    _entManager.QueueDeleteEntity(uid.Value);
-                _loadoutPreferences.Clear();
-            }
-
-
-            // Get the highest priority job to use for loadout filtering
-            var highJob = _controller.GetPreferredJob(Profile ?? HumanoidCharacterProfile.DefaultWithSpecies());
-
-            _loadouts.Clear();
-            foreach (var loadout in _prototypeManager.EnumeratePrototypes<LoadoutPrototype>())
-            {
-                var usable = _characterRequirementsSystem.CheckRequirementsValid(
-                    loadout.Requirements,
-                    highJob ?? new JobPrototype(),
-                    Profile ?? HumanoidCharacterProfile.DefaultWithSpecies(),
-                    _requirements.GetRawPlayTimeTrackers(),
-                    _requirements.IsWhitelisted(),
-                    loadout,
-                    _entManager,
-                    _prototypeManager,
-                    _cfgManager,
-                    out _
-                );
-                _loadouts.Add(loadout, usable);
-
-                var list = _loadoutPreferences.ToList();
-                if (list.FindIndex(lps => lps.Loadout.ID == loadout.ID) is not (not -1 and var i))
-                    continue;
-
-                var selector = list[i];
-                UpdateSelector(selector, usable);
-            }
-
-            if (_loadouts.Count == 0)
-            {
-                LoadoutsTabs.AddTab(new Label { Text = Loc.GetString("humanoid-profile-editor-loadouts-no-loadouts") },
-                    Loc.GetString("loadout-category-Uncategorized"));
-                return;
-            }
-
-            if (!LoadoutsTabs.TryFindTabByAlias(Uncategorized, out var id))
-            {
-                var uncategorizedB = new BoxContainer
-                {
-                    Name = Uncategorized,
-                    Orientation = LayoutOrientation.Vertical,
-                    HorizontalExpand = true,
-                    VerticalExpand = true,
-                    // I hate ScrollContainers
-                    Children =
-                    {
-                        new ScrollContainer
-                        {
-                            HScrollEnabled = false,
-                            HorizontalExpand = true,
-                            VerticalExpand = true,
-                            Children =
-                            {
-                                new BoxContainer
-                                {
-                                    Orientation = LayoutOrientation.Vertical,
-                                    HorizontalExpand = true,
-                                    VerticalExpand = true,
-                                },
-                            },
-                        },
-                    },
-                };
-
-                id = LoadoutsTabs.AddTab(uncategorizedB, Loc.GetString("loadout-category-Uncategorized"));
-                LoadoutsTabs.SetTabAlias(id, Uncategorized);
-            }
-
-            var uncategorized = LoadoutsTabs.GetControl<BoxContainer>(id)!;
-
-            // Create a Dictionary/tree of categories and subcategories
-            var cats = CreateTree(_prototypeManager.EnumeratePrototypes<LoadoutCategoryPrototype>()
-                .Where(c => c.Root)
-                .OrderBy(c => Loc.GetString($"loadout-category-{c.ID}"))
-                .ToList());
-            var categories = new Dictionary<string, object>();
-            foreach (var (key, value) in cats)
-                categories.Add(key, value);
-
-            // Create the UI elements for the category tree
-            CreateCategoryUI(categories, LoadoutsTabs);
-
-            // Fill categories with loadouts
-            foreach (var (loadout, usable) in _loadouts
-                .OrderBy(l => l.Key.ID)
-                .ThenBy(l => Loc.GetString($"loadout-name-{l.Key.ID}"))
-                .ThenBy(l => l.Key.Cost))
-            {
-                if (_loadoutPreferences.Select(lps => lps.Loadout.ID).Contains(loadout.ID))
-                {
-                    var first = _loadoutPreferences.First(lps => lps.Loadout.ID == loadout.ID);
-                    var prof = Profile?.LoadoutPreferences.FirstOrDefault(lp => lp.LoadoutName == loadout.ID);
-                    first.Preference = new(loadout.ID, prof?.CustomName, prof?.CustomDescription, prof?.CustomContent, prof?.CustomColorTint, prof?.CustomHeirloom); // WD EDIT
-                    UpdateSelector(first, usable);
-                    continue;
-                }
-
-                var selector = new LoadoutPreferenceSelector(
-                    loadout, highJob ?? new JobPrototype(),
-                    Profile ?? HumanoidCharacterProfile.DefaultWithSpecies(), ref _dummyLoadouts,
-                    _entManager, _prototypeManager, _cfgManager, _characterRequirementsSystem, _requirements)
-                    { Preference = new(loadout.ID) };
-                UpdateSelector(selector, usable);
-                AddSelector(selector);
-
-                // Look for an existing category tab
-                var match = FindCategory(loadout.Category, LoadoutsTabs);
-
-                // If there is no category put it in Uncategorized (this shouldn't happen)
-                (match ?? uncategorized).Children.First().Children.First().AddChild(selector);
-            }
-
-            // Hide any empty tabs
-            HideEmptyTabs(_prototypeManager.EnumeratePrototypes<LoadoutCategoryPrototype>().ToList());
-
-            UpdateLoadoutPreferences();
-            return;
-
-
-            void UpdateSelector(LoadoutPreferenceSelector selector, bool usable)
-            {
-                selector.Valid = usable;
-                selector.ShowUnusable = showUnusable.Value;
-
-                foreach (var item in selector.Loadout.Items)
-                {
-                    if (_dummyLoadouts.TryGetValue(selector.Loadout.ID + selector.Loadout.Items.IndexOf(item), out var entity)
-                        && _entManager.GetComponent<MetaDataComponent>(entity).EntityPrototype!.ID == item)
-                    {
-                        if (!_entManager.HasComponent<ClothingComponent>(entity))
-                        {
-                            selector.Wearable = true;
-                            continue;
-                        }
-                        selector.Wearable = _characterRequirementsSystem.CanEntityWearItem(PreviewDummy, entity);
-                        continue;
-                    }
-
-                    entity = _entManager.SpawnEntity(item, MapCoordinates.Nullspace);
-                    _dummyLoadouts[selector.Loadout.ID + selector.Loadout.Items.IndexOf(item)] = entity;
-
-                    if (!_entManager.HasComponent<ClothingComponent>(entity))
-                    {
-                        selector.Wearable = true;
-                        continue;
-                    }
-                    selector.Wearable = _characterRequirementsSystem.CanEntityWearItem(PreviewDummy, entity);
-                }
-            }
-
-            void CreateCategoryUI(Dictionary<string, object> tree, NeoTabContainer parent)
-            {
-                foreach (var (key, value) in tree)
-                {
-                    // If the category's container exists already, ignore it
-                    if (parent.TryFindTabByAlias(key, out _))
-                        continue;
-
-                    // If the value is a list of LoadoutPrototypes, create a final tab for them
-                    if (value is List<LoadoutPrototype>)
-                    {
-                        var category = new BoxContainer
-                        {
-                            Name = key,
-                            Orientation = LayoutOrientation.Vertical,
-                            HorizontalExpand = true,
-                            VerticalExpand = true,
-                            Children =
-                            {
-                                new ScrollContainer
-                                {
-                                    HScrollEnabled = false,
-                                    HorizontalExpand = true,
-                                    VerticalExpand = true,
-                                    Children =
-                                    {
-                                        new BoxContainer
-                                        {
-                                            Orientation = LayoutOrientation.Vertical,
-                                            HorizontalExpand = true,
-                                            VerticalExpand = true,
-                                        },
-                                    },
-                                },
-                            },
-                        };
-
-                        var catId = parent.AddTab(category, Loc.GetString($"loadout-category-{key}"));
-                        parent.SetTabAlias(catId, key);
-                    }
-                    // If the value is a dictionary, create a new tab for it and recursively call this function to fill it
-                    else
-                    {
-                        var category = new NeoTabContainer
-                        {
-                            Name = key,
-                            HorizontalExpand = true,
-                            VerticalExpand = true,
-                            SeparatorMargin = new Thickness(0),
-                        };
-
-                        var catId = parent.AddTab(category, Loc.GetString($"loadout-category-{key}"));
-                        parent.SetTabAlias(catId, key);
-                        CreateCategoryUI((Dictionary<string, object>) value, category);
-                    }
-                }
-            }
-
-            void AddSelector(LoadoutPreferenceSelector selector)
-            {
-                _loadoutPreferences.Add(selector);
-                selector.PreferenceChanged += preference =>
-                {
-                    // Make sure they have enough loadout points
-                    var wasSelected = Profile?.LoadoutPreferences
-                        .FirstOrDefault(it => it.LoadoutName == selector.Loadout.ID)
-                        ?.Selected ?? false;
-                    var selected = preference.Selected && (wasSelected || CheckPoints(-selector.Loadout.Cost, true));
-
-                    // Update Preferences
-                    Profile = Profile?.WithLoadoutPreference(
-                        selector.Loadout.ID,
-                        selected,
-                        preference.CustomName,
-                        preference.CustomDescription,
-                        preference.CustomContent, // WD EDIT
-                        preference.CustomColorTint,
-                        preference.CustomHeirloom);
-                    IsDirty = true;
-                    UpdateLoadoutPreferences();
-                    SetProfile(Profile, CharacterSlot);
-                };
-            }
-
-            bool CheckPoints(int points, bool preference)
-            {
-                var temp = LoadoutPointsBar.Value + points;
-                return preference ? temp >= 0 : temp < 0;
-            }
-        }
-
-        #endregion
-
-        #region Functions
-
-        private Dictionary<string, object> CreateTree(List<LoadoutCategoryPrototype> cats)
-        {
-            var tree = new Dictionary<string, object>();
-            foreach (var category in cats)
-            {
-                // If the category is already in the tree, ignore it
-                if (tree.ContainsKey(category.ID))
-                    continue;
-
-                // Categories don't have a Parent field, so we need to instead check the SubCategories of every Category
-                var subCategories = category.SubCategories.Where(subCategory => !tree.ContainsKey(subCategory)).ToList();
-                // If there are no subcategories, add a loadout spot to the dictionary
-                if (subCategories.Count == 0)
-                {
-                    tree.Add(category.ID, new List<LoadoutPrototype>());
-                    continue;
-                }
-
-                // If there are subcategories, we need to add them to the dictionary as well
-                var subCategoryTree = CreateTree(subCategories.Select(c => _prototypeManager.Index(c)).ToList());
-                tree.Add(category.ID, subCategoryTree);
-            }
-
-            return tree;
-        }
-
-        private BoxContainer? FindCategory(string id, NeoTabContainer parent)
-        {
-            BoxContainer? match = null;
-
-            if(parent.TryFindTabByAlias(id, out var tabId))
-                match = parent.GetControl<BoxContainer>(tabId);
-
-
-            if (match != null)
-                return match;
-
-            foreach (var subcategory in parent.GetControls<NeoTabContainer>())
-                match ??= FindCategory(id, subcategory);
-
-            return match;
-        }
-
-        private void HideEmptyTabs(List<LoadoutCategoryPrototype> cats)
-        {
-            // TODO: HIDE LOGIC LATER
-        }
-
+        // WWDP EDIT START
         private void TryRemoveUnusableLoadouts()
         {
-            // Confirm the user wants to remove unusable loadouts
             if (!AdminUIHelpers.TryConfirm(LoadoutsRemoveUnusableButton, _confirmationData))
                 return;
 
-            // Remove unusable and unwearable loadouts
-            foreach (var (loadout, _) in
-                _loadouts.Where(l =>
-                    !l.Value || !_loadoutPreferences.First(lps => lps.Loadout.ID == l.Key.ID).Wearable).ToList())
-                Profile = Profile?.WithLoadoutPreference(loadout.ID, false);
-            UpdateCharacterRequired();
+            if (Profile == null)
+                return;
+
+            var unusableLoadouts = _loadouts.Where(l => !l.Value).Select(l => l.Key.ID).ToList();
+
+            var currentProfile = Profile;
+            foreach (var loadoutId in unusableLoadouts)
+            {
+                var loadout = currentProfile.LoadoutPreferencesList.FirstOrDefault(l => l.LoadoutName == loadoutId);
+                if (loadout != null)
+                {
+                    var newList = currentProfile.LoadoutPreferencesList.Where(l => l.LoadoutName != loadoutId).ToList();
+                    currentProfile = currentProfile.WithLoadoutPreference(newList);
+                }
+            }
+
+            Profile = currentProfile;
+            ReloadProfilePreview();
+            ReloadClothes();
+            UpdateLoadouts();
         }
 
+        private void UpdateLoadoutsRemoveButton()
+        {
+            var unusableCount = _loadouts.Count(l => !l.Value);
+
+            if (unusableCount > 0)
+            {
+                LoadoutsRemoveUnusableButton.Text = Loc.GetString(
+                    "humanoid-profile-editor-loadouts-remove-unusable-button",
+                    ("count", unusableCount));
+                LoadoutsRemoveUnusableButton.RemoveStyleClass(StyleBase.ButtonOpenLeft);
+                LoadoutsRemoveUnusableButton.AddStyleClass(StyleBase.ButtonDanger);
+                LoadoutsRemoveUnusableButton.Disabled = false;
+            }
+            else
+            {
+                LoadoutsRemoveUnusableButton.Text = Loc.GetString(
+                    "humanoid-profile-editor-loadouts-remove-unusable-button",
+                    ("count", 0));
+                LoadoutsRemoveUnusableButton.RemoveStyleClass(StyleBase.ButtonDanger);
+                LoadoutsRemoveUnusableButton.AddStyleClass(StyleBase.ButtonOpenLeft);
+                LoadoutsRemoveUnusableButton.Disabled = true;
+            }
+        }
+        // WWDP EDIT END
+
         #endregion
 
         #endregion
+
 
         private void UpdateCharacterRequired()
         {
@@ -2808,7 +2543,6 @@ namespace Content.Client.Lobby.UI
             RefreshLifepaths();
             RefreshJobs();
             UpdateTraits(TraitsShowUnusableButton.Pressed);
-            UpdateLoadouts(LoadoutsShowUnusableButton.Pressed);
         }
     }
 }

@@ -12,6 +12,7 @@ using Content.Shared.Humanoid;
 using Content.Shared.Humanoid.Prototypes;
 using Content.Shared.Mind;
 using Content.Shared.Mind.Components;
+using Content.Shared.Popups; // WWDP EDIT
 using Content.Shared.Preferences;
 using Content.Shared.Roles;
 using Content.Shared.Roles.Jobs;
@@ -39,6 +40,7 @@ public sealed class ParadoxAnomalySystem : EntitySystem
     [Dependency] private readonly StationSystem _station = default!;
     [Dependency] private readonly StationSpawningSystem _stationSpawning = default!;
     [Dependency] private readonly LoadoutSystem _loadout = default!;
+    [Dependency] private readonly SharedPopupSystem _popup = default!; // WWDP EDIT
 
     public override void Initialize()
     {
@@ -51,7 +53,10 @@ public sealed class ParadoxAnomalySystem : EntitySystem
     {
         Log.Info($"Using paradox anomaly spawner {ent}");
         if (!TrySpawnParadoxAnomaly(ent.Comp.Rule, out var twin))
+        { // WWDP EDIT
+            _popup.PopupCursor(Loc.GetString("paradox-anomaly-create-false"), args.Player); // WWDP EDIT
             return;
+        } // WWDP EDIT
 
         Log.Info($"Created paradox anomaly {ToPrettyString(twin):twin}");
         var role = Comp<GhostRoleComponent>(ent);
@@ -67,7 +72,7 @@ public sealed class ParadoxAnomalySystem : EntitySystem
         twin = null;
 
         // Get a list of potential candidates
-        var candidates = new List<(EntityUid, EntityUid, SpeciesPrototype, HumanoidCharacterProfile)>();
+        var candidates = new List<(EntityUid, EntityUid, SpeciesPrototype, HumanoidCharacterProfile, ProtoId<JobPrototype>)>(); // WD EDIT
         var query = EntityQueryEnumerator<MindContainerComponent, HumanoidAppearanceComponent>();
         while (query.MoveNext(out var uid, out var mindContainer, out var humanoid))
         {
@@ -77,29 +82,31 @@ public sealed class ParadoxAnomalySystem : EntitySystem
             if (!_proto.TryIndex<SpeciesPrototype>(humanoid.Species, out var species))
                 continue;
 
-            if (_mind.GetMind(uid, mindContainer) is not {} mindId || !HasComp<JobRoleComponent>(mindId))
+            if (_mind.GetMind(uid, mindContainer) is not {} mindId
+                // WD EDIT START
+                || !_role.MindHasRole<JobRoleComponent>(mindId, out var jobRole)
+                || !jobRole.Value.Comp1.JobPrototype.HasValue)
+                // WD EDIT END
                 continue;
 
             if (_role.MindIsAntagonist(mindId))
                 continue;
 
             // TODO: when metempsychosis real skip whoever has Karma
-
-            candidates.Add((uid, mindId, species, profile));
+            candidates.Add((uid, mindId, species, profile, jobRole.Value.Comp1.JobPrototype.Value)); // WD EDIT
         }
 
         twin = SpawnParadoxAnomaly(candidates, rule);
         return twin != null;
     }
 
-    private EntityUid? SpawnParadoxAnomaly(List<(EntityUid, EntityUid, SpeciesPrototype, HumanoidCharacterProfile)> candidates, string rule)
+    private EntityUid? SpawnParadoxAnomaly(List<(EntityUid, EntityUid, SpeciesPrototype, HumanoidCharacterProfile, ProtoId<JobPrototype>)> candidates, string rule) // WD EDIT
     {
         // Select a candidate.
         if (candidates.Count == 0)
             return null;
 
-        var (uid, mindId, species, profile) = _random.Pick(candidates);
-        var jobId = Comp<JobRoleComponent>(mindId).Prototype;
+        var (uid, mindId, species, profile, jobId) = _random.Pick(candidates); // WD EDIT
         var job = _proto.Index<JobPrototype>(jobId!);
 
         // Find a suitable spawn point.

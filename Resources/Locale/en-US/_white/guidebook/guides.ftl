@@ -1,2 +1,10 @@
+
+# Service
+
+guide-entry-botany-base = Based Botany
+
+# Antagonists
+
 guide-entry-blood-cult = Blood Cult
-guide-entry-headcrabs = Headcrabs
+guide-entry-devil = Devil
+guide-entry-devil-clauses = Devil Clauses

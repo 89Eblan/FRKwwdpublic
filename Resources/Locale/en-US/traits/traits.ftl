@@ -91,11 +91,20 @@ trait-description-RussianAccent = You speak with a Russian accent.
 trait-name-FrenchAccent = French accent
 trait-description-FrenchAccent = You speak with a French accent.
 
+trait-name-CowboyAccent = Cowboy accent
+trait-description-CowboyAccent = You speak with a distinct cowboy accent!
+
 trait-name-ItalianAccent = Italian accent
 trait-description-ItalianAccent = You speak with a Italian accent.
 
 trait-name-SpanishAccent = Spanish accent
 trait-description-SpanishAccent = You speak with a Spanish accent.
+
+trait-name-PainNumbness = Numb
+trait-description-PainNumbness = You lack any sense of feeling pain, being unaware of how hurt you may be.
+
+trait-name-SouthernAccent = Southern drawl
+trait-description-SouthernAccent = You have a different way of speakin'.
 
 trait-name-Snoring = Snoring
 trait-description-Snoring = You tend to snore loudly while sleeping.
@@ -200,7 +209,7 @@ trait-description-Feeble =
 trait-name-MartialArtist = Martial Artist
 trait-description-MartialArtist =
     You have received formal training in unarmed combat, whether with fists, claws, feet, or teeth.
-    Your unarmed melee attack is now considered a single-target [color=orange]Power Attack[/color], requiring less precision.
+    Your unarmed melee attack is now considered a single-target [color=orange]Swing[/color], requiring less precision.
     Additionally, your unarmed melee attacks deal [color=yellow]20%[/color] more damage, attack [color=yellow]25%[/color] faster, and have [color=yellow]10%[/color] increased range.
     This has no effect on damage dealt with any form of armed melee.
     The [color=#9FED58]Boxer[/color], [color=#9FED58]Martial Artist[/color], and [color=#9FED58]Gladiator[/color] jobs start with this trait by default.

@@ -47,7 +47,7 @@ public sealed partial class MarkingPicker : Control
 
     public string IgnoreCategories
     {
-        get => string.Join(',',  _ignoreCategories);
+        get => string.Join(',', _ignoreCategories);
         set
         {
             _ignoreCategories.Clear();
@@ -110,6 +110,18 @@ public sealed partial class MarkingPicker : Control
         Populate(CMarkingSearch.Text);
     }
 
+    // WWDP EDIT START
+    public bool Select(MarkingCategories category)
+    {
+        _selectedMarkingCategory = category;
+        if (!CMarkingCategoryButton.TrySelectId(_markingCategories.IndexOf(_selectedMarkingCategory)))
+            return false;
+        Populate(CMarkingSearch.Text);
+        UpdatePoints();
+        return true;
+    }
+    // WWDP EDIT END
+
     public MarkingPicker()
     {
         RobustXamlLoader.Load(this);
@@ -125,6 +137,9 @@ public sealed partial class MarkingPicker : Control
 
         Populate(CMarkingSearch.Text);
     }
+
+    public bool IsCategoryValid(MarkingCategories category) =>
+        !_ignoreCategories.Contains(category) && GetMarkings(category).Count > 0; // WWDP EDIT
 
     private void SetupCategoryButtons()
     {
@@ -156,6 +171,13 @@ public sealed partial class MarkingPicker : Control
     private List<string> GetMarkingStateNames(MarkingPrototype marking)
     {
         List<string> result = new();
+        // WWDP EDIT START
+        if (marking.Sprites.Count == 1)
+        {
+            result.Add(GetMarkingName(marking));
+            return result;
+        }
+        // WWDP EDIT END
         foreach (var markingState in marking.Sprites)
         {
             switch (markingState)
@@ -208,6 +230,7 @@ public sealed partial class MarkingPicker : Control
                     {
                         Texture = marking.Sprites[0].DirFrame0().TextureFor(
                             Enum.TryParse<Direction>(marking.PreviewDirection, out var dir) ? dir : Direction.South),
+                        TextureScale = new Vector2(1.5f) // WWDP EDIT
                     },
                 },
             };
@@ -222,7 +245,7 @@ public sealed partial class MarkingPicker : Control
             };
             var customize = new Button
             {
-                Text = "Customize",
+                Text = Loc.GetString("humanoid-profile-editor-loadouts-customize"), // WWDP EDIT
                 StyleClasses = { StyleBase.ButtonOpenLeft, },
                 Disabled = !item.Pressed,
             };
@@ -230,9 +253,16 @@ public sealed partial class MarkingPicker : Control
             item.OnToggled += _ =>
             {
                 // Add the marking if they have points for it
-                item.Pressed = item.Pressed && !Forced ? _currentMarkings.PointsLeft(_selectedMarkingCategory) > 0 : item.Pressed;
+                //item.Pressed = item.Pressed && !Forced ? _currentMarkings.PointsLeft(_selectedMarkingCategory) > 0 : item.Pressed; // WWDP EDIT
                 if (item.Pressed)
+                { // WWDP EDIT START
+                    if (_currentMarkings.TryGetCategory(_selectedMarkingCategory, out var categoryMarkings) && _currentMarkings.PointsLeft(_selectedMarkingCategory) == 0)
+                        _currentMarkings.Remove(_selectedMarkingCategory, 0);
+                    // WWDP EDIT END
                     MarkingAdd(_prototypeManager.Index<MarkingPrototype>(item.Name));
+                    // WWDP EDIT START
+                    Populate(CMarkingSearch.Text);
+                } // WWDP EDIT END
                 else
                     MarkingRemove(_prototypeManager.Index<MarkingPrototype>(item.Name));
                 customize.Disabled = !item.Pressed;
@@ -325,7 +355,7 @@ public sealed partial class MarkingPicker : Control
 
             var colorSelector = new ColorSelectorSliders();
 
-            colorContainer.AddChild(new Label { Text = $"{stateNames[i]} color:" });
+            colorContainer.AddChild(new Label { Text = Loc.GetString("marking-color-label", ("name", stateNames[i])) }); // WWDP EDIT
             colorContainer.AddChild(colorSelector);
 
             var listing = _currentMarkings.Markings[_selectedMarkingCategory];

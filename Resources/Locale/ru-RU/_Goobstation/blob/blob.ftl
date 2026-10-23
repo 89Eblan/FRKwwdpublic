@@ -1,39 +1,39 @@
-ent-SpawnPointGhostBlob = Точка появления блоба
-    .suffix = ОТЛАДКА, Точка появления призрака
+ent-SpawnPointGhostBlob = точка появления блоба
+    .suffix = DEBUG, точка появления призрака
     .desc = { ent-MarkerBase.desc }
-ent-MobBlobPod = Споры блоба
+ent-MobBlobPod = спора блоба
     .desc = Обычный боец блоба.
-ent-MobBlobBlobbernaut = Блоббернаут
+ent-MobBlobBlobbernaut = блоббернаут
     .desc = Элитный боец блоба.
 ent-BaseBlob = базовый блоб
     .desc = { "" }
-ent-NormalBlobTile = Обычная плитка блоба
+ent-NormalBlobTile = обычная плитка блоба
     .desc = Обычная часть блоба, необходимая для строительства более продвинутых плиток.
-ent-CoreBlobTile = Ядро блоба
+ent-CoreBlobTile = ядро блоба
     .desc = Самый важный орган блоба. Уничтожив ядро, инфекция прекратится.
-ent-FactoryBlobTile = Фабрика блоба
+ent-FactoryBlobTile = фабрика блоба
     .desc = Со временем производит споры блоба и блоббернаутов.
-ent-ResourceBlobTile = Ресурсный блоб
+ent-ResourceBlobTile = ресурсная плитка блоба
     .desc = Производит ресурсы для блоба.
-ent-NodeBlobTile = Узловой блоб
+ent-NodeBlobTile = узловой блоб
     .desc = Мини-версия ядра, которая позволяет размещать специальные плитки блоба вокруг себя.
-ent-StrongBlobTile = Прочная плитка блоба
+ent-StrongBlobTile = прочная плитка блоба
     .desc = Укреплённая версия обычной плитки. Не пропускает воздух и защищает от механических повреждений.
-ent-ReflectiveBlobTile = Отражающая плитка блоба
+ent-ReflectiveBlobTile = отражающая плитка блоба
     .desc = Отражает лазеры, но не так хорошо защищает от механических повреждений.
 objective-issuer-blob = Блоб
 
 
 ghost-role-information-blobbernaut-name = Блоббернаут
-ghost-role-information-blobbernaut-description = Вы - Блоббернаут. Вы должны защищать ядро блоба.
+ghost-role-information-blobbernaut-description = Вы — Блоббернаут. Вы должны защищать ядро блоба.
 
 ghost-role-information-blob-name = Блоб
-ghost-role-information-blob-description = Вы - инфекция Блоба. Поглотите станцию.
+ghost-role-information-blob-description = Вы — инфекция Блоба. Поглотите станцию.
 
 roles-antag-blob-name = Блоб
 roles-antag-blob-objective = Достигните критической массы.
 
-guide-entry-blob = Blob
+guide-entry-blob = Блоб
 
 # Popups
 blob-target-normal-blob-invalid = Неправильный тип блоба, выберите обычный блоб.
@@ -61,7 +61,7 @@ blob-mob-zombify-third-start = { $pod } начинает превращать { 
 blob-mob-zombify-second-end = { $pod } превращает вас в зомби.
 blob-mob-zombify-third-end = { $pod } превращает { $target } в зомби.
 
-blobberaut-factory-destroy = factory destroy
+blobberaut-factory-destroy = Ваша фабрика была уничтожена!
 blob-target-already-connected = уже соединено
 
 
@@ -69,7 +69,7 @@ blob-target-already-connected = уже соединено
 blob-chem-swap-ui-window-name = Смена химикатов
 blob-chem-reactivespines-info = Реактивные шипы
                                 Наносит 25 механического урона.
-blob-chem-blazingoil-info = Горящее масло
+blob-chem-blazingoil-info = Пылающее масло
                             Наносит 15 ожогового урона и поджигает цели.
                             Делает вас уязвимым к воде.
 blob-chem-regenerativemateria-info = Регенеративная материя
@@ -129,7 +129,7 @@ blob-carrier-role-name = Носитель блоба
 blob-carrier-role-desc = Существо, заражённое блобом.
 blob-carrier-role-rules = Вы антагонист. У вас есть 10 минут до превращения в блоба.
                         Используйте это время, чтобы найти безопасное место на станции. Имейте в виду, что вы будете очень слабым сразу после трансформации.
-blob-carrier-role-greeting = Вы - носитель Блоба. Найдите укромное место на станции и превратитесь в Блоба. Превратите станцию в массу, а её обитателей - в своих слуг. Мы все - Блобы.
+blob-carrier-role-greeting = Вы — носитель Блоба. Найдите укромное место на станции и превратитесь в Блоба. Превратите станцию в массу, а её обитателей — в своих слуг. Мы все — Блобы.
 
 # Verbs
 blob-pod-verb-zombify = Зомбировать
@@ -145,8 +145,8 @@ blob-health-alert-desc = Здоровье вашего ядра. Вы умрёт
 
 # Greeting
 blob-role-greeting =
-    Вы блоб - паразитическое космическое существо, способное уничтожить целые станции.
-        Ваша цель - выжить и вырасти как можно больше.
+    Вы блоб — паразитическое космическое существо, способное уничтожить целые станции.
+        Ваша цель — выжить и вырасти как можно больше.
         Вы почти неуязвимы для физических повреждений, но тепло все ещё может навредить вам.
         Используйте Alt+ЛКМ для улучшения обычных плиток блоба до прочных, а прочных до отражающих.
         Обязательно размещайте ресурсные блобы для генерации ресурсов.
@@ -177,7 +177,7 @@ blob-was-a-blob-with-objectives-named = [color=White]{$name}[/color] был бл
 
 # Objectivies
 objective-condition-blob-capture-title = Захватить станцию
-objective-condition-blob-capture-description = Ваша единственная цель - захватить всю станцию. Вам нужно иметь как минимум {$count} плиток блоба.
+objective-condition-blob-capture-description = Ваша единственная цель — захватить всю станцию. Вам нужно иметь как минимум {$count} плиток блоба.
 objective-condition-success = { $condition } | [color={ $markupColor }]Успех![/color]
 objective-condition-fail = { $condition } | [color={ $markupColor }]Провал![/color] ({ $progress }%)
 
@@ -188,4 +188,4 @@ speak-vv-blob-core = Ядро блоба
 # Language
 language-Blob-name = Блоб
 chat-language-Blob-name = Блоб
-language-Blob-description = Блиб боб! Блоб блоб! 
+language-Blob-description = Блиб боб! Блоб блоб!

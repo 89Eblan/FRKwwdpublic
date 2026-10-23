@@ -10,53 +10,53 @@ ent-PuddleSparkle = Sparkle
 ent-Puddle = лужа
    .desc = Лужа жидкости.
 
-ent-SalvageHumanCorpseSpawner = Спавнер тела человека
-   .desc = ""
+ent-SalvageHumanCorpseSpawner = спавнер тела человека
+   .desc = { "" }
 
-ent-RandomServiceCorpseSpawner = Спавнер случайного сервисного сотрудника
-   .desc = ""
+ent-RandomServiceCorpseSpawner = спавнер случайного сервисного сотрудника
+   .desc = { "" }
 
-ent-RandomEngineerCorpseSpawner = Спавнер случайного тела инженера
-   .desc = ""
+ent-RandomEngineerCorpseSpawner = спавнер случайного тела инженера
+   .desc = { "" }
 
-ent-RandomCargoCorpseSpawner = Спавнер случайного тела карго
-   .desc = ""
+ent-RandomCargoCorpseSpawner = спавнер случайного тела карго
+   .desc = { "" }
 
-ent-RandomMedicCorpseSpawner = Спавнер случайного тела медика
-   .desc = ""
+ent-RandomMedicCorpseSpawner = спавнер случайного тела медика
+   .desc = { "" }
 
-ent-RandomScienceCorpseSpawner = Спавнер случайного тела учёного
-   .desc = ""
+ent-RandomScienceCorpseSpawner = спавнер случайного тела учёного
+   .desc = { "" }
 
-ent-RandomSecurityCorpseSpawner = Спавнер случайного тела СБ
-   .desc = ""
+ent-RandomSecurityCorpseSpawner = спавнер случайного тела СБ
+   .desc = { "" }
 
-ent-RandomCommandCorpseSpawner = Спавнер случайного тела коммандного
-   .desc = ""
+ent-RandomCommandCorpseSpawner = спавнер случайного тела коммандного
+   .desc = { "" }
 
-ent-SpawnMobHuman = Спавнер Уриста
-   .desc = ""
+ent-SpawnMobHuman = спавнер Уриста
+   .desc = { "" }
 
-ent-SpawnPointLoneNukeOperative = Точка спавна одинокого нюки
-   .desc = ""
+ent-SpawnPointLoneNukeOperative = точка спавна одинокого нюки
+   .desc = { "" }
 
-ent-SpawnPointGhostDragon = Точка спавна дракона
-   .desc = ""
+ent-SpawnPointGhostDragon = точка спавна дракона
+   .desc = { "" }
 
-ent-SpawnPointResearchAssistant = Точка спавна научного ассистента
-   .desc = ""
+ent-SpawnPointResearchAssistant = точка спавна научного ассистента
+   .desc = { "" }
 
-ent-SpawnPointBoxer = Точка спавна боксёра
-   .desc = ""
+ent-SpawnPointBoxer = точка спавна боксёра
+   .desc = { "" }
 
-ent-SpawnPointSeniorEngineer = Точка спавна бригадира
-   .desc = ""
+ent-SpawnPointSeniorEngineer = точка спавна бригадира
+   .desc = { "" }
 
-ent-SpawnPointSeniorPhysician = Точка спавна медицинского офицера
-   .desc = ""
+ent-SpawnPointSeniorPhysician = точка спавна медицинского офицера
+   .desc = { "" }
 
-ent-SpawnPointSeniorSalvageSpecialist = Точка спавна охтника карго
-   .desc = ""
+ent-SpawnPointSeniorSalvageSpecialist = точка спавна охотника карго
+   .desc = { "" }
 
-ent-SpawnPointParamedic = Точка спавна парамедика
-   .desc = ""
+ent-SpawnPointParamedic = точка спавна парамедика
+   .desc = { "" }
